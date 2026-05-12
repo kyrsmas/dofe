@@ -22,38 +22,51 @@
 <html>
     <body>
         <header>
-            this is the header
+            advice generator
         </header>
 
         <main>
-            <img alt="placeholder image" src="images/placeholder.webp" width="200px"></img>
 
             <input id="username" class="username" type="text" placeholder="enter user credentials">
                 
         </main>
 
         <button class="dark-mode" id="dark-mode">
-                    toggle dark mode
+            dark mode
         </button>
 
+        <div class="advice-container" id="advice-container">
+            <p class="current-advice" id="current-advice">
+                current advice
+            </p>
+
+            <p class="advice" id="advice"></p>
+        
+            <button id="advice-button" class="advice-button">
+                generate advice
+            </button>
+        </div>
+        
+        
+
         <div class="button-container">
-                
-
-                <button id="save-data">
+             <button id="save-data">
                     save data
-                </button>
+            </button>
 
-                <button id="load-data">
-                    load data
-                </button>
+            <button id="load-data">
+                load data
+            </button>
 
-                <button id="wipe-data">
-                    clear data
-                </button>
-            </div>
+            <button id="wipe-data">
+                clear data
+            </button>   
+        </div>
+
+        
 
         <footer>
-            trademarked 2026
+            disclaimer: this website may produce inaccurate, inappropriate, or unintended advice, and the developer (me) assumes no liability for any actions, damages, or consequences resulting from its usage.
         </footer>
     </body>
 </html>

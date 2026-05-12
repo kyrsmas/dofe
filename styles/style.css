@@ -13,8 +13,37 @@ body {
     color: black;
 
     font-family: Arial, Helvetica, sans-serif;
+    transition: background 0.3s ease 0.1s;
 }
 
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    to {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
 
 
 body.dark {
@@ -25,19 +54,23 @@ body.dark {
 body.dark button {
     background: black;
     color: white;
+    transition: background 0.3s ease 0.1s;
 }
 
 body.dark footer {
     color: white;
+    transition: background 0.3s ease 0.1s;
 }
 
 body.dark input {
     background: black;
     color: white;
+    transition: background 0.3s ease 0.1s;
 }
 
 body.dark input::placeholder {
-    color: white;
+    color: rgb(200,200,200);
+    transition: background 0.3s ease 0.1s;
 }
 
 header {
@@ -49,6 +82,8 @@ header {
     font-size: xx-large;
     justify-content: center;
     align-items: center;
+
+    transition: background 0.3s ease 0.1s;
 }
 
 
@@ -60,20 +95,53 @@ img {
     margin-bottom: 10px;
     justify-content: center;
     align-items: center;
+
+    width: 184px;
+    aspect-ratio: 1;
+
+    transition: background 0.3s ease 0.1s;
 }
 
 .button-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 10px;
     gap: 10px;
 }
 
-.username {
+.username, .advice-button {
     display: flex;
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.advice-container {
+    display: none;
+    justify-content: center;
+}
+
+.current-advice {
+    font-weight: bold;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.advice {
+    font-style: italic;
+
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    display: flex;
+    margin: auto;
+
+    justify-content: center;
+    align-items: center;
 }
 
 .dark-mode {
@@ -81,10 +149,12 @@ img {
     margin: 10px;
     right: 0;
     font-size: 10px;
-    height: 20px;
-    width: 100px;
+    height: 24px;
+    width: 64px;
 
+    
 }
+
 
 footer {
     color: black;
@@ -92,6 +162,6 @@ footer {
     padding: 20px;
 
     text-align: center;
-    
+    transition: background 0.3s ease 0.1s;
 }
 

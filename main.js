@@ -5,58 +5,108 @@ const loadButton = document.getElementById("load-data");
 const wipeButton = document.getElementById("wipe-data");
 
 const textInput = document.getElementById("username");
+const adviceButton = document.getElementById("advice-button");
 
-toggleButton.addEventListener("click", function()
+const advice = document.getElementById("advice");
+const adviceContainer = document.getElementById("advice-container");
+
+function delay(seconds)
+{
+    return new Promise(resolve =>
     {
-        //console.log("clicked");
-        document.body.classList.toggle("dark");
+        setTimeout(resolve, seconds * 1000);
+    });
+}
 
-        if (document.body.classList.contains("dark"))
-        {
-            toggleButton.textContent = "toggle light mode";
-        }
-        else
-        {
-            toggleButton.textContent = "toggle dark mode";
-        }
+function playClick()
+{
+    let sound = new Audio("sounds/click.mp3");
 
+    sound.play();
+}
 
-    }
-);
+function playHover()
+{
+    let sound = new Audio("sounds/hover.mp3");
 
-saveButton.addEventListener("click", function()
+    sound.play();
+}
+
+function toggleMode()
+{
+    document.body.classList.toggle("dark");
+
+    if (document.body.classList.contains("dark"))
     {
-        localStorage.setItem("dark-mode", document.body.classList.contains("dark"))
-
+        toggleButton.textContent = "light mode";
     }
-);
-
-loadButton.addEventListener("click", function()
+    else
     {
-        const darkMode = localStorage.getItem("dark-mode");
-
-        //console.log(darkMode);
-
-        if (darkMode == "true")
-        {
-            if (!document.body.classList.contains("dark"))
-            {
-                document.body.classList.toggle("dark");
-            }
-            
-            toggleButton.textContent = "toggle light mode";
-        }
-        else
-        {
-            if (document.body.classList.contains("dark"))
-            {
-                document.body.classList.toggle("dark");
-            }
-
-            toggleButton.textContent = "toggle dark mode";
-        }
+        toggleButton.textContent = "dark mode";
     }
-);
+}
+
+function setMode(isDark)
+{
+    if (isDark == true)
+    {
+        document.body.classList.add("dark");
+        toggleButton.textContent = "light mode";
+       
+    }
+    else 
+    {
+        document.body.classList.remove("dark");
+        toggleButton.textContent = "dark mode";
+    }
+}
+
+
+function save()
+{
+    localStorage.setItem("dark-mode", document.body.classList.contains("dark"))
+    localStorage.setItem("advice", advice.textContent);
+}
+
+function load()
+{
+    const darkMode = localStorage.getItem("dark-mode");
+    const savedAdvice = localStorage.getItem("advice");
+    const savedCredentials = localStorage.getItem("credentials");
+
+    //console.log(darkMode);
+
+    if (savedAdvice != "")
+    {
+        advice.textContent = savedAdvice;
+    }
+
+    if (savedCredentials == "true")
+    {
+        textInput.style.display = "none";
+        adviceContainer.style.display = "flex";
+    }
+        
+
+    setMode(darkMode == "true");
+}
+
+let buttons = document.querySelectorAll("button");
+
+buttons.forEach(function(button)
+{
+    button.addEventListener("click", function()
+    {
+        playClick();
+    });
+
+    button.addEventListener("mouseenter", function()
+    {
+        playHover();
+    });
+});
+
+
 
 wipeButton.addEventListener("click", function()
     {
@@ -67,16 +117,22 @@ wipeButton.addEventListener("click", function()
 
 textInput.addEventListener("focusin", function()
     {
+        playClick();
         textInput.value = "";
     }
 );
 
-textInput.addEventListener("focusout", function()
+textInput.addEventListener("focusout",  async function()
     {
         switch (textInput.value)
         {
             case "eddie":
                 textInput.value = "user identified";
+                adviceContainer.style.display = "block";
+                textInput.style.animation = "spin 2s";
+                localStorage.setItem("credentials", true);
+                await delay(2);
+                textInput.style.display = "none";
                 break;
             default:
                 textInput.value = "incorrect username";
@@ -84,3 +140,43 @@ textInput.addEventListener("focusout", function()
         }
     }
 );
+
+async function getAdvice()
+{
+    advice.style.animation = "fadeout 0.25s";
+    await delay(0.25);
+    advice.style.opacity = 0;
+    advice.textContent = "";
+
+
+    let characterCount = 0;
+
+    let adviceInfo = await fetch("https://api.adviceslip.com/advice");
+
+    let data = await adviceInfo.json();
+    let quotedAdvice = '"' + data.slip.advice + '"';
+
+    console.log(data);
+
+    advice.style.animation = "fadein 0.25s";
+    await delay(0.25);
+    advice.style.opacity = 1;
+
+    while (characterCount <= quotedAdvice.length)
+    {
+        await delay(0.075);
+        advice.textContent = quotedAdvice.slice(0, characterCount);
+
+        characterCount++;
+    }
+
+    
+    
+};
+
+toggleButton.addEventListener("click", toggleMode);
+saveButton.addEventListener("click", save);
+loadButton.addEventListener("click", load);
+adviceButton.addEventListener("click", getAdvice);
+
+getAdvice();
