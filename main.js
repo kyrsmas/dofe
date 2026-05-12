@@ -4,11 +4,12 @@ const saveButton = document.getElementById("save-data");
 const loadButton = document.getElementById("load-data");
 const wipeButton = document.getElementById("wipe-data");
 
-const textInput = document.getElementById("username");
 const adviceButton = document.getElementById("advice-button");
-
 const advice = document.getElementById("advice");
 const adviceContainer = document.getElementById("advice-container");
+
+const textInput = document.getElementById("username");
+const profilePicture = document.querySelector("image");
 
 function delay(seconds)
 {
@@ -122,14 +123,17 @@ textInput.addEventListener("focusin", function()
     }
 );
 
-textInput.addEventListener("focusout",  async function()
-    {
-        switch (textInput.value)
+
+
+async function validateCredentials()
+{
+    switch (textInput.value)
         {
             case "eddie":
                 textInput.value = "user identified";
                 adviceContainer.style.display = "block";
                 textInput.style.animation = "spin 2s";
+                profilePicture.src = "images/placeholder.webp";
                 localStorage.setItem("credentials", true);
                 await delay(2);
                 textInput.style.display = "none";
@@ -138,8 +142,7 @@ textInput.addEventListener("focusout",  async function()
                 textInput.value = "incorrect username";
                 break;
         }
-    }
-);
+}
 
 async function getAdvice()
 {
@@ -177,6 +180,7 @@ async function getAdvice()
 toggleButton.addEventListener("click", toggleMode);
 saveButton.addEventListener("click", save);
 loadButton.addEventListener("click", load);
+textInput.addEventListener("focusout",  validateCredentials);
 adviceButton.addEventListener("click", getAdvice);
 
 getAdvice();
