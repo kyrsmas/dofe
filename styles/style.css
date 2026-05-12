@@ -92,14 +92,17 @@ img {
     position: relative;
     display: flex;
     margin: auto;
+    margin-top: 10px;
     margin-bottom: 10px;
     justify-content: center;
     align-items: center;
 
-    width: 184px;
+    width: 36%;
+    max-width: 800px;
+    object-fit: cover;
     aspect-ratio: 1;
 
-    transition: background 0.3s ease 0.1s;
+    transition: opacity 0.3s ease 0.1s;
 }
 
 .button-container {

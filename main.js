@@ -9,7 +9,7 @@ const advice = document.getElementById("advice");
 const adviceContainer = document.getElementById("advice-container");
 
 const textInput = document.getElementById("username");
-const profilePicture = document.querySelector("image");
+const profilePicture = document.querySelector("img");
 
 function delay(seconds)
 {
@@ -29,6 +29,13 @@ function playClick()
 function playHover()
 {
     let sound = new Audio("sounds/hover.mp3");
+
+    sound.play();
+}
+
+function playType()
+{
+    let sound = new Audio("sounds/type.mp3");
 
     sound.play();
 }
@@ -133,8 +140,12 @@ async function validateCredentials()
                 textInput.value = "user identified";
                 adviceContainer.style.display = "block";
                 textInput.style.animation = "spin 2s";
-                profilePicture.src = "images/placeholder.webp";
+                profilePicture.style.opacity = 0;
                 localStorage.setItem("credentials", true);
+                await delay(0.3);
+                profilePicture.style.opacity = 1;
+                profilePicture.src = "images/profile.webp";
+                
                 await delay(2);
                 textInput.style.display = "none";
                 break;
@@ -169,7 +180,12 @@ async function getAdvice()
     {
         await delay(0.075);
         advice.textContent = quotedAdvice.slice(0, characterCount);
-
+        let currentCharacter = quotedAdvice.slice(characterCount, characterCount + 1);
+        if (textInput.style.display == "none" && currentCharacter != " ")
+        {
+            playType();
+        }
+        
         characterCount++;
     }
 
